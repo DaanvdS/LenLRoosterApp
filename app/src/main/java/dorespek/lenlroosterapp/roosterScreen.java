@@ -286,7 +286,6 @@ public class roosterScreen extends ActionBarActivity {
     public void roosterSet(View v){
         Log.d("stepper", "Roosterdata requested");
         if(bool_DataFetched) {
-
             switch(v.getResources().getResourceName(v.getId())){
                 case "dorespek.lenlroosterapp:id/buttonMA": int_dagSelected=0; break;
                 case "dorespek.lenlroosterapp:id/buttonDI": int_dagSelected=1; break;
@@ -374,8 +373,10 @@ public class roosterScreen extends ActionBarActivity {
         }
         if (id == R.id.action_refresh) {
             try {
-                int_stepperPoint = 0;
-                roosterStepper();
+                if(int_stepperPoint==50) {
+                    int_stepperPoint = 0;
+                    roosterStepper();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
