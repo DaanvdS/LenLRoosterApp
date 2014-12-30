@@ -2,6 +2,7 @@ package dorespek.lenlroosterapp;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +16,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -24,11 +26,13 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Calendar;
 
 public class roosterScreen extends ActionBarActivity {
     public String sourceResult;
     public boolean bool_loggedIn;
     public static int int_stepperPoint = 0;
+    public int int_dagSelected = 0;
     public Rooster ros_weekRooster;
     public Rooster ros_jaarRooster;
     public String str_weekRooster;
@@ -46,6 +50,7 @@ public class roosterScreen extends ActionBarActivity {
             Intent ns = new Intent(this, SettingsActivity.class);
             startActivity(ns);
         }
+        int_dagSelected = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 2;
     }
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -150,7 +155,8 @@ public class roosterScreen extends ActionBarActivity {
             //Not logged in, browsing to lekenlinge.nl
             //int_stepperPoint=45;
             Log.d("stepper", "Started");
-            bool_loggedIn =false;
+            Toast.makeText(getApplicationContext(), "Roosterdata ophalen", Toast.LENGTH_SHORT).show();
+            bool_loggedIn=false;
             webBrowser.loadUrl("https://www.lekenlinge.nl");
         }
         if(int_stepperPoint ==5){
@@ -221,6 +227,7 @@ public class roosterScreen extends ActionBarActivity {
         }
         if(int_stepperPoint ==45){
             Log.d("stepper", "Taking roosterdata from file");
+            Toast.makeText(getApplicationContext(), "WiFi traag, roosterdata van eerder geladen", Toast.LENGTH_SHORT).show();
             str_weekRooster = "";
             try {
                 InputStream inputStream = openFileInput("weekrooster.txt");
@@ -271,37 +278,39 @@ public class roosterScreen extends ActionBarActivity {
         }
         if(int_stepperPoint==50){
             Log.d("stepper", "Roosterdata ready");
+            Toast.makeText(getApplicationContext(), "Roosterdata geladen", Toast.LENGTH_SHORT).show();
             bool_DataFetched=true;
+            roosterSet(findViewById(R.id.dag));
         }
     }
     public void roosterSet(View v){
         Log.d("stepper", "Roosterdata requested");
         if(bool_DataFetched) {
-            int t_dag;
-            t_dag = 0;
+
             switch(v.getResources().getResourceName(v.getId())){
-                case "dorespek.lenlroosterapp:id/buttonMA": t_dag=0; break;
-                case "dorespek.lenlroosterapp:id/buttonDI": t_dag=1; break;
-                case "dorespek.lenlroosterapp:id/buttonWO": t_dag=2; break;
-                case "dorespek.lenlroosterapp:id/buttonDO": t_dag=3; break;
-                case "dorespek.lenlroosterapp:id/buttonVR": t_dag=4; break;
+                case "dorespek.lenlroosterapp:id/buttonMA": int_dagSelected=0; break;
+                case "dorespek.lenlroosterapp:id/buttonDI": int_dagSelected=1; break;
+                case "dorespek.lenlroosterapp:id/buttonWO": int_dagSelected=2; break;
+                case "dorespek.lenlroosterapp:id/buttonDO": int_dagSelected=3; break;
+                case "dorespek.lenlroosterapp:id/buttonVR": int_dagSelected=4; break;
+                case "dorespek.lenlroosterapp:id/dag": break;
             }
 
             TextView t;
             t = (TextView) findViewById(R.id.dag);
-            t.setText(ros_weekRooster.getDag(t_dag).getDag());
+            t.setText(ros_weekRooster.getDag(int_dagSelected).getDag());
             t = (TextView) findViewById(R.id.les1);
-            t.setText(ros_weekRooster.getDag(t_dag).getUur(0).getUur());
+            t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(0).getUur());
             t = (TextView) findViewById(R.id.les2);
-            t.setText(ros_weekRooster.getDag(t_dag).getUur(1).getUur());
+            t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(1).getUur());
             t = (TextView) findViewById(R.id.les3);
-            t.setText(ros_weekRooster.getDag(t_dag).getUur(2).getUur());
+            t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(2).getUur());
             t = (TextView) findViewById(R.id.les4);
-            t.setText(ros_weekRooster.getDag(t_dag).getUur(3).getUur());
+            t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(3).getUur());
             t = (TextView) findViewById(R.id.les5);
-            t.setText(ros_weekRooster.getDag(t_dag).getUur(4).getUur());
+            t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(4).getUur());
             t = (TextView) findViewById(R.id.les6);
-            t.setText(ros_weekRooster.getDag(t_dag).getUur(5).getUur());
+            t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(5).getUur());
         }
     }
     public String[] filterRooster(String str_data){
@@ -362,6 +371,14 @@ public class roosterScreen extends ActionBarActivity {
             Intent ns = new Intent(this, SettingsActivity.class);
             startActivity(ns);
             return true;
+        }
+        if (id == R.id.action_refresh) {
+            try {
+                int_stepperPoint = 0;
+                roosterStepper();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
