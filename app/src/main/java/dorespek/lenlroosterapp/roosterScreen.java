@@ -282,6 +282,8 @@ public class roosterScreen extends ActionBarActivity {
             }
 
             TextView t;
+            t = (TextView) findViewById(R.id.dag);
+            t.setText(ros_weekRooster.getDag(t_dag).getDag());
             t = (TextView) findViewById(R.id.les1);
             t.setText(ros_weekRooster.getDag(t_dag).getUur(0).getUur());
             t = (TextView) findViewById(R.id.les2);
