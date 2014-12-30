@@ -1,0 +1,298 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".roosterScreen"
+    android:padding="0dp">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="left|top"
+        android:id="@+id/buttons"
+        android:layout_marginTop="1dp">
+
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:text="MA"
+            android:id="@+id/buttonMA"
+            android:layout_gravity="left|top"
+            android:onClick="roosterSet" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:layout_height="45dp"
+            android:text="DI"
+            android:id="@+id/buttonDI"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/button"
+            android:layout_toEndOf="@+id/button"
+            android:onClick="roosterSet" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:layout_height="45dp"
+            android:text="WO"
+            android:id="@+id/buttonWO"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/button"
+            android:layout_toEndOf="@+id/button"
+            android:onClick="roosterSet" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:layout_height="45dp"
+            android:text="DO"
+            android:id="@+id/buttonDO"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/button"
+            android:layout_toEndOf="@+id/button"
+            android:onClick="roosterSet" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:layout_height="45dp"
+            android:text="VR"
+            android:id="@+id/buttonVR"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/button"
+            android:layout_toEndOf="@+id/button"
+            android:onClick="roosterSet" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Rooster"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:weightSum="1"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="46dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.04">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dag"
+                android:textColor="#000000"
+                android:textIsSelectable="false"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                android:autoText="false"
+                android:gravity="top|center_horizontal"
+                android:id="@+id/dag"
+                android:layout_gravity="top|center" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/scrollView"
+                android:layout_marginTop="35dp"
+                android:layout_gravity="bottom">
+
+                <TableLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:shrinkColumns="*"
+                    android:stretchColumns="*"
+                    android:background="#ffffff"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="0dp">
+
+                    <TableRow
+                        android:layout_height="wrap_content"
+                        android:layout_width="fill_parent"
+                        android:gravity="center_horizontal">
+
+                        <TextView
+                            android:id="@+id/uur1"
+                            android:text="1"
+                            android:background="#b0b0b0"
+                            android:textColor="#000000"
+                            android:gravity="center"
+                            android:layout_width="0px"
+                            android:layout_weight="0.2"
+                            android:padding="18dip"
+                            android:textStyle="bold"
+                            android:layout_height="fill_parent" />
+
+                        <TextView
+                            android:id="@+id/les1"
+                            android:text="@string/les1"
+                            android:layout_weight="0.8"
+                            android:background="#a09f9f"
+                            android:textColor="#000000"
+                            android:padding="18dip"
+                            android:gravity="center"
+                            android:layout_width="0px" />
+                    </TableRow>
+                    <TableRow
+                        android:layout_height="wrap_content"
+                        android:layout_width="fill_parent"
+                        android:gravity="center_horizontal">
+
+                        <TextView
+                            android:id="@+id/uur2"
+                            android:text="2"
+                            android:layout_weight="0.2"
+                            android:background="#b0b0b0"
+                            android:textColor="#000000"
+                            android:padding="18dip"
+                            android:gravity="center"
+                            android:textStyle="bold"
+                            android:layout_width="0px" />
+
+                        <TextView
+                            android:id="@+id/les2"
+                            android:text="@string/les2"
+                            android:layout_weight="0.8"
+                            android:background="#a09f9f"
+                            android:textColor="#000000"
+                            android:padding="18dip"
+                            android:gravity="center"
+                            android:layout_width="0px" />
+                    </TableRow>
+                    <TableRow
+                        android:layout_height="wrap_content"
+                        android:layout_width="fill_parent"
+                        android:gravity="center_horizontal">
+
+                        <TextView
+                            android:id="@+id/uur3"
+                            android:text="3"
+                            android:layout_weight="0.2"
+                            android:background="#b0b0b0"
+                            android:textColor="#000000"
+                            android:padding="18dip"
+                            android:gravity="center"
+                            android:textStyle="bold"
+                            android:layout_width="0px" />
+
+                        <TextView
+                            android:id="@+id/les3"
+                            android:text="@string/les3"
+                            android:layout_weight="0.8"
+                            android:background="#a09f9f"
+                            android:textColor="#000000"
+                            android:padding="18dip"
+                            android:gravity="center"
+                            android:layout_width="0px" />
+                    </TableRow>
+                    <TableRow
+                        android:layout_height="wrap_content"
+                        android:layout_width="fill_parent"
+                        android:gravity="center_horizontal">
+
+                        <TextView
+                            android:id="@+id/uur4"
+                            android:text="4"
+                            android:layout_weight="0.2"
+                            android:background="#b0b0b0"
+                            android:textColor="#000000"
+                            android:padding="18dip"
+                            android:gravity="center"
+                            android:textStyle="bold"
+                            android:layout_width="0px" />
+
+                        <TextView
+                            android:id="@+id/les4"
+                            android:text="@string/les4"
+                            android:layout_weight="0.8"
+                            android:background="#a09f9f"
+                            android:textColor="#000000"
+                            android:padding="18dip"
+                            android:gravity="center"
+                            android:layout_width="0px" />
+                    </TableRow>
+                    <TableRow
+                        android:layout_height="wrap_content"
+                        android:layout_width="fill_parent"
+                        android:gravity="center_horizontal">
+
+                        <TextView
+                            android:id="@+id/uur5"
+                            android:text="5"
+                            android:layout_weight="0.2"
+                            android:background="#b0b0b0"
+                            android:textColor="#000000"
+                            android:padding="18dip"
+                            android:gravity="center"
+                            android:textStyle="bold"
+                            android:layout_width="0px" />
+
+                        <TextView
+                            android:id="@+id/les5"
+                            android:text="@string/les5"
+                            android:layout_weight="0.8"
+                            android:background="#a09f9f"
+                            android:textColor="#000000"
+                            android:padding="18dip"
+                            android:gravity="center"
+                            android:layout_width="0px" />
+                    </TableRow>
+                    <TableRow
+                        android:layout_height="wrap_content"
+                        android:layout_width="fill_parent"
+                        android:gravity="center_horizontal">
+
+                        <TextView
+                            android:id="@+id/uur6"
+                            android:text="6"
+                            android:layout_weight="0.2"
+                            android:background="#b0b0b0"
+                            android:textColor="#000000"
+                            android:padding="18dip"
+                            android:gravity="center"
+                            android:textStyle="bold"
+                            android:layout_width="0px" />
+
+                        <TextView
+                            android:id="@+id/les6"
+                            android:text="@string/les6"
+                            android:layout_weight="0.8"
+                            android:background="#a09f9f"
+                            android:textColor="#000000"
+                            android:padding="18dip"
+                            android:gravity="center"
+                            android:layout_width="0px" />
+                    </TableRow>
+
+                </TableLayout>
+            </ScrollView>
+
+            <WebView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/webBrowser"
+                android:layout_gravity="left|top"
+                android:visibility="gone" />
+
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">LenLRoosterApp</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="vak">Vak</string>
+    <string name="les1">LES1</string>
+    <string name="les2">LES2</string>
+    <string name="les3">LES3</string>
+    <string name="les4">LES4</string>
+    <string name="les5">LES5</string>
+    <string name="les6">LES6</string>
+    <string name="dag">Dag</string>
+</resources>
