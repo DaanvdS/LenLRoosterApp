@@ -1,5 +1,6 @@
 package dorespek.lenlroosterapp;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -40,6 +41,11 @@ public class roosterScreen extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rooster_screen);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        if((prefs.getString("lln", "100000").equals("100000")) && (prefs.getString("pwd", "Niks.").equals("Niks."))){
+            Intent ns = new Intent(this, SettingsActivity.class);
+            startActivity(ns);
+        }
     }
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -155,8 +161,8 @@ public class roosterScreen extends ActionBarActivity {
             //Logging in
             Log.d("stepper", "Logging in");
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            String username =  prefs.getString("lln", "114684");
-            String password = prefs.getString("pwd", "Bufitiranik.");
+            String username =  prefs.getString("lln", "100000");
+            String password = prefs.getString("pwd", "Niks.");
             webBrowser.loadUrl("javascript:$(\"input#inlog-username-mobiel\").val(\"" + username + "\");");
             webBrowser.loadUrl("javascript:toonWachtwoordVeld();");
             webBrowser.loadUrl("javascript:$(\"input#inlog-wachtwoord-mobiel\").val(\"" + password + "\");");
@@ -167,7 +173,7 @@ public class roosterScreen extends ActionBarActivity {
             Log.d("stepper", "Logged in, going to roosterpage");
             bool_loggedIn =true;
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            webBrowser.loadUrl("https://www.lekenlinge.nl/mobiel/rooster?q=" + prefs.getString("lln", "114684"));
+            webBrowser.loadUrl("https://www.lekenlinge.nl/mobiel/rooster?q=" + prefs.getString("lln", "100000"));
         }
         if(int_stepperPoint ==30) {
             //Roosterpage source presented
@@ -300,8 +306,8 @@ public class roosterScreen extends ActionBarActivity {
     }
     public String[] filterRooster(String str_data){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        str_data = str_data.replace("<table id=\"w" + prefs.getString("lln", "114684") + "\" class=\"roostertabel week\" cols=\"6\" cellspacing=\"0\" cellpadding=\"0\" style=\"width: 100%\"><tbody><tr><td class=\"headercell\"></td>", "");
-        str_data = str_data.replace("<table id=\"j" + prefs.getString("lln", "114684") + "\" class=\"roostertabel week\" cols=\"6\" cellspacing=\"0\" cellpadding=\"0\" style=\"width: 100%\"><tbody><tr><td class=\"headercell\"></td>", "");
+        str_data = str_data.replace("<table id=\"w" + prefs.getString("lln", "100000") + "\" class=\"roostertabel week\" cols=\"6\" cellspacing=\"0\" cellpadding=\"0\" style=\"width: 100%\"><tbody><tr><td class=\"headercell\"></td>", "");
+        str_data = str_data.replace("<table id=\"j" + prefs.getString("lln", "100000") + "\" class=\"roostertabel week\" cols=\"6\" cellspacing=\"0\" cellpadding=\"0\" style=\"width: 100%\"><tbody><tr><td class=\"headercell\"></td>", "");
         str_data = str_data.replace("<td class=\"headercell\" style=\"text-align: center; \">1</td>","");
         str_data = str_data.replace("<td class=\"headercell\" style=\"text-align: center; \">2</td>","");
         str_data = str_data.replace("<td class=\"headercell\" style=\"text-align: center; \">3</td>","");
@@ -352,6 +358,9 @@ public class roosterScreen extends ActionBarActivity {
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Context objContext;
+            Intent ns = new Intent(this, SettingsActivity.class);
+            startActivity(ns);
             return true;
         }
         return super.onOptionsItemSelected(item);
