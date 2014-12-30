@@ -193,11 +193,11 @@ public class roosterScreen extends ActionBarActivity {
             str_jaarRooster = str_jaarRooster.split("<p></p></div><div id=\"lestijden\"")[0];
             strar_weekRooster = filterRooster(str_weekRooster);
             strar_jaarRooster = filterRooster(str_jaarRooster);
-            int i = 0;
+            /*int i = 0;
             while(i< strar_jaarRooster.length){
                 Log.d(String.valueOf(i), strar_weekRooster[i]);
                 i++;
-            }
+            }*/
             ros_weekRooster = new Rooster("week");
             ros_weekRooster.setDagen(strar_weekRooster, strar_jaarRooster);
             ros_jaarRooster = new Rooster("jaar");
