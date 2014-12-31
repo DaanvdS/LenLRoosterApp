@@ -158,7 +158,11 @@ public class roosterScreen extends ActionBarActivity {
             //Not logged in, browsing to lekenlinge.nl
             //int_stepperPoint=45;
             Log.d("stepper", "Started");
-            Toast.makeText(getApplicationContext(), "Roosterdata ophalen", Toast.LENGTH_SHORT).show();
+            this.runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "Roosterdata ophalen", Toast.LENGTH_SHORT).show();
+                }
+            });
             bool_loggedIn=false;
             webBrowser.loadUrl("https://www.lekenlinge.nl");
         }
@@ -205,7 +209,11 @@ public class roosterScreen extends ActionBarActivity {
         }
         if(int_stepperPoint ==45){
             Log.d("stepper", "Taking roosterdata from file");
-            Toast.makeText(getApplicationContext(), "WiFi traag, roosterdata van eerder geladen", Toast.LENGTH_SHORT).show();
+            this.runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "WiFi traag, roosterdata van eerder geladen", Toast.LENGTH_SHORT).show();
+                }
+            });
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             str_weekRooster =  prefs.getString("weekrooster", "ZZZ zzz z001");
             if(str_weekRooster.equals("ZZZ zzz z001")){
@@ -229,13 +237,21 @@ public class roosterScreen extends ActionBarActivity {
         }
         if(int_stepperPoint==60){
             Log.d("stepper", "Roosterdata ready");
-            Toast.makeText(getApplicationContext(), "Roosterdata geladen", Toast.LENGTH_SHORT).show();
+            this.runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "Roosterdata geladen", Toast.LENGTH_SHORT).show();
+                }
+            });
             bool_DataFetched=true;
             roosterSet(findViewById(R.id.dag));
         }
         if(int_stepperPoint==70){
             Log.d("stepper", "Roosterdata empty");
-            Toast.makeText(getApplicationContext(), "Geen internetverbinding en geen data", Toast.LENGTH_LONG).show();
+            this.runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "Geen internetverbinding en geen data", Toast.LENGTH_LONG).show();
+                }
+            });
         }
     }
     public void roosterSet(View v){
