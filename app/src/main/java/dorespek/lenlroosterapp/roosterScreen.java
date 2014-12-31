@@ -2,7 +2,6 @@ package dorespek.lenlroosterapp;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,20 +38,21 @@ public class roosterScreen extends ActionBarActivity {
     public String str_jaarRooster;
     public String[] strar_weekRooster;
     public String[] strar_jaarRooster;
-    private boolean bool_DataFetched = false;
+    public boolean bool_DataFetched = false;
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rooster_screen);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if((prefs.getString("lln", "100000").equals("100000")) && (prefs.getString("pwd", "Niks.").equals("Niks."))){
-            Intent ns = new Intent(this, SettingsActivity.class);
+        if(!(prefs.getString("lln", "100000").equals("100000")) && !(prefs.getString("pwd", "Niks.").equals("Niks."))){
+            Intent ns = new Intent(this, roosterScreen.class);
             startActivity(ns);
         }
         int_dagSelected = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 2;
     }
-    protected void onPostCreate(Bundle savedInstanceState) {
+    protected void onPostCreate(Bundle savedInstanceState){
         super.onPostCreate(savedInstanceState);
         try {
             roosterStepper();
@@ -68,7 +68,7 @@ public class roosterScreen extends ActionBarActivity {
         webSettings.setUseWideViewPort(true);
 
         webBrowser.setWebViewClient(new WebViewClient() {
-            boolean timeout=false;
+            boolean bool_Timeout;
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 if (url.startsWith("source://")) {
                     try {
@@ -105,12 +105,16 @@ public class roosterScreen extends ActionBarActivity {
                 }
             }
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                bool_Timeout = true;
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        //timeout=true;
-                        android.os.SystemClock.sleep(10000);
-                        if(timeout) {
+                        try {
+                            Thread.sleep(10000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        if(bool_Timeout) {
                             int_stepperPoint =45;
                             try {
                                 roosterStepper();
@@ -122,7 +126,7 @@ public class roosterScreen extends ActionBarActivity {
                 }).start();
             }
             public void onPageFinished(WebView view, String url) {
-                timeout=false;
+                bool_Timeout = false;
                 if(int_stepperPoint ==0){
                     //www.lekenlinge.nl loaded
                     webBrowser.loadUrl("javascript:this.document.location.href = 'source://' + encodeURI(document.documentElement.outerHTML);");
