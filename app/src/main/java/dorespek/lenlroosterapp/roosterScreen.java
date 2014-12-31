@@ -61,6 +61,7 @@ public class roosterScreen extends ActionBarActivity {
         webSettings.setSavePassword(false);
         webSettings.setDomStorageEnabled(true);
         webSettings.setUseWideViewPort(true);
+        webSettings.setLoadsImagesAutomatically(false);
 
         webBrowser.setWebViewClient(new WebViewClient() {
             boolean bool_Timeout;
@@ -109,7 +110,7 @@ public class roosterScreen extends ActionBarActivity {
                     @Override
                     public void run() {
                         try {
-                            Thread.sleep(10000);
+                            Thread.sleep(60000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -123,6 +124,7 @@ public class roosterScreen extends ActionBarActivity {
                         }
                     }
                 }).start();
+
             }
             public void onPageFinished(WebView view, String url) {
                 bool_Timeout = false;
@@ -266,21 +268,25 @@ public class roosterScreen extends ActionBarActivity {
                 case "dorespek.lenlroosterapp:id/dag": break;
             }
 
-            TextView t;
-            t = (TextView) findViewById(R.id.dag);
-            t.setText(ros_weekRooster.getDag(int_dagSelected).getDag());
-            t = (TextView) findViewById(R.id.les1);
-            t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(0).getUur());
-            t = (TextView) findViewById(R.id.les2);
-            t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(1).getUur());
-            t = (TextView) findViewById(R.id.les3);
-            t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(2).getUur());
-            t = (TextView) findViewById(R.id.les4);
-            t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(3).getUur());
-            t = (TextView) findViewById(R.id.les5);
-            t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(4).getUur());
-            t = (TextView) findViewById(R.id.les6);
-            t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(5).getUur());
+            this.runOnUiThread(new Runnable() {
+                public void run() {
+                    TextView t;
+                    t = (TextView) findViewById(R.id.dag);
+                    t.setText(ros_weekRooster.getDag(int_dagSelected).getDag());
+                    t = (TextView) findViewById(R.id.les1);
+                    t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(0).getUur());
+                    t = (TextView) findViewById(R.id.les2);
+                    t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(1).getUur());
+                    t = (TextView) findViewById(R.id.les3);
+                    t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(2).getUur());
+                    t = (TextView) findViewById(R.id.les4);
+                    t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(3).getUur());
+                    t = (TextView) findViewById(R.id.les5);
+                    t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(4).getUur());
+                    t = (TextView) findViewById(R.id.les6);
+                    t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(5).getUur());
+                }
+            });
         }
     }
     public String[] filterRooster(String str_data){
