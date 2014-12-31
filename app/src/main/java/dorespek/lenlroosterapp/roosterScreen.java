@@ -3,6 +3,7 @@ package dorespek.lenlroosterapp;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Context;
@@ -30,7 +31,7 @@ import java.util.Calendar;
 public class roosterScreen extends ActionBarActivity {
     public String sourceResult;
     public boolean bool_loggedIn;
-    public static int int_stepperPoint = 0;
+    public int int_stepperPoint = 0;
     public int int_dagSelected = 0;
     public Rooster ros_weekRooster;
     public Rooster ros_jaarRooster;
@@ -41,15 +42,9 @@ public class roosterScreen extends ActionBarActivity {
     public boolean bool_DataFetched = false;
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rooster_screen);
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if(!(prefs.getString("lln", "100000").equals("100000")) && !(prefs.getString("pwd", "Niks.").equals("Niks."))){
-            Intent ns = new Intent(this, roosterScreen.class);
-            startActivity(ns);
-        }
         int_dagSelected = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 2;
     }
     protected void onPostCreate(Bundle savedInstanceState){
@@ -77,6 +72,10 @@ public class roosterScreen extends ActionBarActivity {
                             if(html.contains("<div id=\"roosterMobile\">") || html.contains("<div id=\"ingelogd\">")){
                                 //already logged in
                                 int_stepperPoint = 20;
+                                roosterStepper();
+                            } else if(html.contains("not available")){
+                                //already logged in
+                                int_stepperPoint = 45;
                                 roosterStepper();
                             } else {
                                 //not yet logged in
@@ -187,104 +186,56 @@ public class roosterScreen extends ActionBarActivity {
         }
         if(int_stepperPoint ==30) {
             //Roosterpage source presented
-            Log.d("stepper", "Filtering roosterdata");
+            Log.d("stepper", "Filtering roosterdata step 1");
             String str_tempData = sourceResult.replace('\'', '"');
             str_tempData = str_tempData.split("<h3>Weekrooster</h3>")[1];
             String[] strar_tempData = str_tempData.split("<h3>Jaarrooster</h3>");
             str_weekRooster = strar_tempData[0];
             str_jaarRooster = strar_tempData[1];
-            str_jaarRooster = str_jaarRooster.split("<br/>Directe link: <a href='")[0];
-            str_jaarRooster = str_jaarRooster.split("<p></p></div><div id=\"lestijden\"")[0];
-            strar_weekRooster = filterRooster(str_weekRooster);
-            strar_jaarRooster = filterRooster(str_jaarRooster);
-            /*int i = 0;
-            while(i< strar_jaarRooster.length){
-                Log.d(String.valueOf(i), strar_weekRooster[i]);
-                i++;
-            }*/
-            ros_weekRooster = new Rooster("week");
-            ros_weekRooster.setDagen(strar_weekRooster, strar_jaarRooster);
-            ros_jaarRooster = new Rooster("jaar");
-            ros_jaarRooster.setDagen(strar_jaarRooster, strar_weekRooster);
             int_stepperPoint =40;
         }
         if(int_stepperPoint ==40){
             Log.d("stepper", "Writing data to file");
-            try {
-                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(openFileOutput("weekrooster.txt", Context.MODE_PRIVATE));
-                outputStreamWriter.write(str_weekRooster);
-                outputStreamWriter.close();
-            }
-            catch (IOException e) {
-                Log.e("Exception", "File write failed: " + e.toString());
-            }
-
-            try {
-                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(openFileOutput("jaarrooster.txt", Context.MODE_PRIVATE));
-                outputStreamWriter.write(str_jaarRooster);
-                outputStreamWriter.close();
-            }
-            catch (IOException e) {
-                Log.e("Exception", "File write failed: " + e.toString());
-            }
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("weekrooster", str_weekRooster);
+            editor.putString("jaarrooster", str_jaarRooster);
+            editor.commit();
             int_stepperPoint=50;
         }
         if(int_stepperPoint ==45){
             Log.d("stepper", "Taking roosterdata from file");
             Toast.makeText(getApplicationContext(), "WiFi traag, roosterdata van eerder geladen", Toast.LENGTH_SHORT).show();
-            str_weekRooster = "";
-            try {
-                InputStream inputStream = openFileInput("weekrooster.txt");
-
-                if ( inputStream != null ) {
-                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                    String receiveString = "";
-                    StringBuilder stringBuilder = new StringBuilder();
-
-                    while ( (receiveString = bufferedReader.readLine()) != null ) {
-                        stringBuilder.append(receiveString);
-                    }
-
-                    inputStream.close();
-                    str_weekRooster = stringBuilder.toString();
-                }
-            }
-            catch (FileNotFoundException e) {
-                Log.e("Roosterfile", "File not found: " + e.toString());
-            } catch (IOException e) {
-                Log.e("Roosterfile", "Can not read file: " + e.toString());
-            }
-
-            str_jaarRooster = "";
-            try {
-                InputStream inputStream = openFileInput("weekrooster.txt");
-
-                if ( inputStream != null ) {
-                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                    String receiveString = "";
-                    StringBuilder stringBuilder = new StringBuilder();
-
-                    while ( (receiveString = bufferedReader.readLine()) != null ) {
-                        stringBuilder.append(receiveString);
-                    }
-
-                    inputStream.close();
-                    str_jaarRooster = stringBuilder.toString();
-                }
-            }
-            catch (FileNotFoundException e) {
-                Log.e("Roosterfile", "File not found: " + e.toString());
-            } catch (IOException e) {
-                Log.e("Roosterfile", "Can not read file: " + e.toString());
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+            str_weekRooster =  prefs.getString("weekrooster", "ZZZ zzz z001");
+            if(str_weekRooster.equals("ZZZ zzz z001")){
+                int_stepperPoint=70;
+            } else {
+                str_jaarRooster = prefs.getString("jaarrooster", "ZZZ zzz z001");
+                int_stepperPoint = 50;
             }
         }
         if(int_stepperPoint==50){
+            Log.d("stepper", "Filtering roosterdata step 2");
+            str_jaarRooster = str_jaarRooster.split("<br/>Directe link: <a href='")[0];
+            str_jaarRooster = str_jaarRooster.split("<p></p></div><div id=\"lestijden\"")[0];
+            strar_weekRooster = filterRooster(str_weekRooster);
+            strar_jaarRooster = filterRooster(str_jaarRooster);
+            ros_weekRooster = new Rooster("week");
+            ros_weekRooster.setDagen(strar_weekRooster, strar_jaarRooster);
+            ros_jaarRooster = new Rooster("jaar");
+            ros_jaarRooster.setDagen(strar_jaarRooster, strar_weekRooster);
+            int_stepperPoint=60;
+        }
+        if(int_stepperPoint==60){
             Log.d("stepper", "Roosterdata ready");
             Toast.makeText(getApplicationContext(), "Roosterdata geladen", Toast.LENGTH_SHORT).show();
             bool_DataFetched=true;
             roosterSet(findViewById(R.id.dag));
+        }
+        if(int_stepperPoint==70){
+            Log.d("stepper", "Roosterdata empty");
+            Toast.makeText(getApplicationContext(), "Geen internetverbinding en geen data", Toast.LENGTH_LONG).show();
         }
     }
     public void roosterSet(View v){
@@ -377,7 +328,7 @@ public class roosterScreen extends ActionBarActivity {
         }
         if (id == R.id.action_refresh) {
             try {
-                if(int_stepperPoint==50) {
+                if(int_stepperPoint==60 || int_stepperPoint==70) {
                     int_stepperPoint = 0;
                     roosterStepper();
                 }

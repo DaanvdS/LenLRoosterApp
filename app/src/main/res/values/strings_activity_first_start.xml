@@ -4,11 +4,6 @@
     <!-- Strings related to login -->
     <string name="prompt_email">Leerlingnummer</string>
     <string name="prompt_password">Wachtwoord</string>
-    <string name="action_sign_in">Log</string>
+    <string name="action_sign_in">Log in</string>
     <string name="action_sign_in_short">Log in</string>
-
-    <string name="error_invalid_email">Dit leerlingnummer klopt niet</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">Wachtwoord leeg</string>
-    <string name="error_field_required">Je hebt niet alles ingevuld</string>
 </resources>
