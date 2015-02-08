@@ -20,14 +20,14 @@ public class Rooster {
         dagen[4]= new Dag("Vrijdag");
 
         int dag=0;
-        int plek=0;
+        int plek=1;
         int uur=0;
 
         while(uur < 6){
             while(dag < 5) {
-                dagen[dag].setUur(uur, w_rooster[(plek)], w_rooster[(plek+2)], w_rooster[(plek+1)], isVeranderd(w_rooster[(plek)], w_rooster[(plek+2)], w_rooster[(plek+1)], j_rooster[(plek)], j_rooster[(plek+2)], j_rooster[(plek+1)]));
+                dagen[dag].setUur(uur, w_rooster[(plek)], isVeranderd(w_rooster[(plek)], j_rooster[(plek)]));
                 dag++;
-                plek = plek + 3;
+                plek++;
             }
             dag=0;
             uur++;
@@ -38,11 +38,11 @@ public class Rooster {
         return dagen[i];
     }
 
-    public boolean isVeranderd(String wdoc, String wles, String wlok, String jdoc, String jles, String jloc){
-        if(wdoc.equals(jdoc) || jles.equals(jles) || jloc.equals(jloc)){
-            return true;
-        } else {
+    public boolean isVeranderd(String wtext, String jtext){
+        if(wtext.equals(jtext)){
             return false;
+        } else {
+            return true;
         }
     }
 }

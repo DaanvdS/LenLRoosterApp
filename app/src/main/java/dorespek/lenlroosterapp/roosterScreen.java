@@ -1,6 +1,7 @@
 package dorespek.lenlroosterapp;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -227,7 +228,7 @@ public class roosterScreen extends ActionBarActivity {
         }
         if(int_stepperPoint==50){
             Log.d("stepper", "Filtering roosterdata step 2");
-            str_jaarRooster = str_jaarRooster.split("<br/>Directe link: <a href='")[0];
+            str_jaarRooster = str_jaarRooster.split("clearer")[0];
             str_jaarRooster = str_jaarRooster.split("<p></p></div><div id=\"lestijden\"")[0];
             strar_weekRooster = filterRooster(str_weekRooster);
             strar_jaarRooster = filterRooster(str_jaarRooster);
@@ -274,17 +275,23 @@ public class roosterScreen extends ActionBarActivity {
                     t = (TextView) findViewById(R.id.dag);
                     t.setText(ros_weekRooster.getDag(int_dagSelected).getDag());
                     t = (TextView) findViewById(R.id.les1);
-                    t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(0).getUur());
+                    t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(0).getText());
+                    if(ros_weekRooster.getDag(int_dagSelected).getUur(0).getVeranderd()){ t.setBackgroundColor(Color.RED); } else { t.setBackgroundColor(Color.parseColor("#a09f9f")); }
                     t = (TextView) findViewById(R.id.les2);
-                    t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(1).getUur());
+                    t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(1).getText());
+                    if(ros_weekRooster.getDag(int_dagSelected).getUur(1).getVeranderd()){ t.setBackgroundColor(Color.RED); } else { t.setBackgroundColor(Color.parseColor("#a09f9f")); }
                     t = (TextView) findViewById(R.id.les3);
-                    t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(2).getUur());
+                    t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(2).getText());
+                    if(ros_weekRooster.getDag(int_dagSelected).getUur(2).getVeranderd()){ t.setBackgroundColor(Color.RED); } else { t.setBackgroundColor(Color.parseColor("#a09f9f")); }
                     t = (TextView) findViewById(R.id.les4);
-                    t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(3).getUur());
+                    t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(3).getText());
+                    if(ros_weekRooster.getDag(int_dagSelected).getUur(3).getVeranderd()){ t.setBackgroundColor(Color.RED); } else { t.setBackgroundColor(Color.parseColor("#a09f9f")); }
                     t = (TextView) findViewById(R.id.les5);
-                    t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(4).getUur());
+                    t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(4).getText());
+                    if(ros_weekRooster.getDag(int_dagSelected).getUur(4).getVeranderd()){ t.setBackgroundColor(Color.RED); } else { t.setBackgroundColor(Color.parseColor("#a09f9f")); }
                     t = (TextView) findViewById(R.id.les6);
-                    t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(5).getUur());
+                    t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(5).getText());
+                    if(ros_weekRooster.getDag(int_dagSelected).getUur(5).getVeranderd()){ t.setBackgroundColor(Color.RED); } else { t.setBackgroundColor(Color.parseColor("#a09f9f")); }
                 }
             });
         }
@@ -292,47 +299,36 @@ public class roosterScreen extends ActionBarActivity {
     public String[] filterRooster(String str_data){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         str_data = str_data.replace("<table id=\"w" + prefs.getString("lln", "100000") + "\" class=\"roostertabel week\" cols=\"6\" cellspacing=\"0\" cellpadding=\"0\" style=\"width: 100%\"><tbody><tr><td class=\"headercell\"></td>", "");
-        str_data = str_data.replace("<table id=\"j" + prefs.getString("lln", "100000") + "\" class=\"roostertabel week\" cols=\"6\" cellspacing=\"0\" cellpadding=\"0\" style=\"width: 100%\"><tbody><tr><td class=\"headercell\"></td>", "");
+        str_data = str_data.replace("<table id=\"j" + prefs.getString("lln", "100000") + "\" class=\"roostertabel jaar\" cols=\"6\" cellspacing=\"0\" cellpadding=\"0\" style=\"width: 100%\"><tbody><tr><td class=\"headercell\"></td>", "");
+        str_data = str_data.replace("<td class=\"headercell\" style=\"text-align: center; \">1</td>","");
         str_data = str_data.replace("<td class=\"headercell\" style=\"text-align: center; \">1</td>","");
         str_data = str_data.replace("<td class=\"headercell\" style=\"text-align: center; \">2</td>","");
         str_data = str_data.replace("<td class=\"headercell\" style=\"text-align: center; \">3</td>","");
         str_data = str_data.replace("<td class=\"headercell\" style=\"text-align: center; \">4</td>","");
         str_data = str_data.replace("<td class=\"headercell\" style=\"text-align: center; \">5</td>","");
         str_data = str_data.replace("<td class=\"headercell\" style=\"text-align: center; \">6</td>","");
-        str_data = str_data.replace("<table cols=\"3\" style=\"font-size: .75em; border: 0px; width: 100%\" cellspacing=\"0\" cellpadding=\"0\"></table>", "<table cols=\"3\" style=\"font-size: .75em; border: 0px; width: 100%\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr style=\"border: 0px; padding: 0px\"><td style=\"width: 100%;text-align: center;border: 0px; padding: 0px 1px 0px 0px\"><a href=\"https://www.lekenlinge.nl/mobiel/rooster?q=ZZZ\">ZZZ</a> zzz <a href=\"https://www.lekenlinge.nl/mobiel/rooster?q=Z001\">Z001</a></td></tr></tbody></table>");
-        String[] strar_data = str_data.split("Directe link:");
-        str_data = strar_data[0];
-        str_data = android.text.Html.fromHtml(str_data).toString();
-        str_data = str_data.replace("madiwodovr", "");
-
-
-
-        //data = data.replace("<td style=\"padding: 1px\"><table cols=\"3\" style=\"font-size: .75em; border: 0px; width: 100%\" cellspacing=\"0\" cellpadding=\"0\"></table></td>", "<td style=\"padding: 1px\"><table cols=\"3\" style=\"font-size: .75em; border: 0px; width: 100%\" cellspacing=\"0\" cellpadding=\"0\"><tbody><tr style=\"border: 0px; padding: 0px\"><td style=\"width: 100%;text-align: center;border: 0px; padding: 0px 1px 0px 0px\"><a href=\"https://www.lekenlinge.nl/mijn/roosters/rooster_zoeken.php?q=ZZZ\">ZZZ</a> zetl_A <a href=\"https://www.lekenlinge.nl/mijn/roosters/rooster_zoeken.php?q=Z001\">Z001</a></td></tr></tbody></table></td>");
-        String[] sortedData = str_data.split(" ");
-        String[] dataDone = new String[90];
+        str_data = str_data.replace("<table cols=\"3\" style=\"font-size: .75em; border: 0px; width: 100%\" cellspacing=\"0\" cellpadding=\"0\"><tbody>","");
+        str_data = str_data.replace("padding: 1px; background-color: rgb(255, 220, 220);","padding: 1px");
+        str_data = str_data.replace("</td></tr><tr style=\"border: 0px; padding: 0px\"><td style=\"width: 100%;text-align: center;border: 0px; padding: 0px 1px 0px 0px\">"," ");
+        str_data = str_data.replace(" <tr>","");
+        str_data = str_data.replace("<td class=\"headercell\" style=\"text-align: center\">ma</td><td class=\"headercell\" style=\"text-align: center\">di</td><td class=\"headercell\" style=\"text-align: center\">wo</td><td class=\"headercell\" style=\"text-align: center\">do</td><td class=\"headercell\" style=\"text-align: center\">vr</td></tr>","");
+        str_data = str_data.replace("<table cols=\"3\" style=\"font-size: .75em; border: 0px; width: 100%\" cellspacing=\"0\" cellpadding=\"0\"></table>", "ZZZ zzz Z001");
+        //str_data = android.text.Html.fromHtml(str_data).toString();
+        //str_data = str_data.replace("madiwodovr", "");
+        Log.d("Data", str_data);
+        String[] strar_data = str_data.split("<td style=\"padding: 1px\"");
         int i = 0;
-        int j = 0;
-        while(i < sortedData.length){
-            str_data = android.text.Html.fromHtml(sortedData[i]).toString();
-            int dataL = str_data.length();
-            //Log.d("stepper", String.valueOf(dataL));
-            if(dataL==7) {
-                dataDone[j] = str_data.substring(0, 4);
-                //Log.d("stepperdata", dataDone[j]);
-                j++;
-                dataDone[j] = str_data.substring(4);
-                //Log.d("stepperdata", dataDone[j]);
-                j++;
-                i++;
-            } else {
-                dataDone[j] = str_data;
-                //Log.d("stepperdata", dataDone[j]);
-                j++;
-                i++;
+        while(i < strar_data.length){
+            if(strar_data[i].length()>5) {
+                strar_data[i] = strar_data[i].substring(13);
             }
+            strar_data[i]=android.text.Html.fromHtml(strar_data[i]).toString();
+            Log.d("Data "+String.valueOf(i), android.text.Html.fromHtml(strar_data[i]).toString());
+            //Log.d("Data", strar_data[i]);
+            i++;
         }
 
-        return dataDone;
+        return strar_data;
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

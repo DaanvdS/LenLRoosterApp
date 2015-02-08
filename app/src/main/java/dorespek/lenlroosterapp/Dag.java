@@ -16,8 +16,8 @@ public class Dag {
         return dag;
     }
 
-    public void setUur(int i, String t_docent, String t_lokaal, String t_les, boolean t_veranderd){
-        uren[i] = new Uur(t_docent, t_lokaal, t_les, t_veranderd);
+    public void setUur(int i, String t_text, boolean t_veranderd){
+        uren[i] = new Uur(t_text, t_veranderd);
     }
 
     public Uur getUur(int i){
