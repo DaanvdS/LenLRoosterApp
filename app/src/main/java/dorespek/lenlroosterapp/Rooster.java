@@ -1,5 +1,7 @@
 package dorespek.lenlroosterapp;
 
+import android.util.Log;
+
 /**
  * Created by Spek on 29-12-2014.
  */
@@ -20,12 +22,15 @@ public class Rooster {
         dagen[4]= new Dag("Vrijdag");
 
         int dag=0;
-        int plek=1;
+        int plek=0;
         int uur=0;
 
         while(uur < 6){
             while(dag < 5) {
-                dagen[dag].setUur(uur, w_rooster[(plek)], isVeranderd(w_rooster[(plek)], j_rooster[(plek)]));
+
+                dagen[dag].setUur(uur, w_rooster[(plek)], isVeranderd(w_rooster[(plek)], j_rooster[(plek+1)]));
+                //Log.d("w", w_rooster[(plek)]);
+                //Log.d("j", j_rooster[(plek+1)]);
                 dag++;
                 plek++;
             }

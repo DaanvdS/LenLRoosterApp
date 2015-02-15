@@ -47,14 +47,17 @@ public class roosterScreen extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rooster_screen);
         int_dagSelected = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 2;
+        if(int_dagSelected == -1 || int_dagSelected == 6){
+            int_dagSelected = 0;
+        }
     }
     protected void onPostCreate(Bundle savedInstanceState){
         super.onPostCreate(savedInstanceState);
-        /*try {
+        try {
             roosterStepper();
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
         final WebView webBrowser = (WebView) findViewById(R.id.webBrowser);
 
         WebSettings webSettings = webBrowser.getSettings();
@@ -234,8 +237,7 @@ public class roosterScreen extends ActionBarActivity {
             strar_jaarRooster = filterRooster(str_jaarRooster);
             ros_weekRooster = new Rooster("week");
             ros_weekRooster.setDagen(strar_weekRooster, strar_jaarRooster);
-            ros_jaarRooster = new Rooster("jaar");
-            ros_jaarRooster.setDagen(strar_jaarRooster, strar_weekRooster);
+
             int_stepperPoint=60;
         }
         if(int_stepperPoint==60){
@@ -273,22 +275,23 @@ public class roosterScreen extends ActionBarActivity {
                 public void run() {
                     TextView t;
                     t = (TextView) findViewById(R.id.dag);
+                    Log.d("dag", Integer.toString(int_dagSelected));
                     t.setText(ros_weekRooster.getDag(int_dagSelected).getDag());
                     t = (TextView) findViewById(R.id.les1);
                     t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(0).getText());
-                    if(ros_weekRooster.getDag(int_dagSelected).getUur(0).getVeranderd()){ t.setBackgroundColor(Color.RED); } else { t.setBackgroundColor(Color.parseColor("#a09f9f")); }
+                    if(ros_weekRooster.getDag(int_dagSelected).getUur(0).getVeranderd()){ t.setBackgroundColor(Color.RED); } else { t.setBackgroundColor(Color.parseColor("#e2e2e2")); }
                     t = (TextView) findViewById(R.id.les2);
                     t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(1).getText());
                     if(ros_weekRooster.getDag(int_dagSelected).getUur(1).getVeranderd()){ t.setBackgroundColor(Color.RED); } else { t.setBackgroundColor(Color.parseColor("#a09f9f")); }
                     t = (TextView) findViewById(R.id.les3);
                     t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(2).getText());
-                    if(ros_weekRooster.getDag(int_dagSelected).getUur(2).getVeranderd()){ t.setBackgroundColor(Color.RED); } else { t.setBackgroundColor(Color.parseColor("#a09f9f")); }
+                    if(ros_weekRooster.getDag(int_dagSelected).getUur(2).getVeranderd()){ t.setBackgroundColor(Color.RED); } else { t.setBackgroundColor(Color.parseColor("#e2e2e2")); }
                     t = (TextView) findViewById(R.id.les4);
                     t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(3).getText());
                     if(ros_weekRooster.getDag(int_dagSelected).getUur(3).getVeranderd()){ t.setBackgroundColor(Color.RED); } else { t.setBackgroundColor(Color.parseColor("#a09f9f")); }
                     t = (TextView) findViewById(R.id.les5);
                     t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(4).getText());
-                    if(ros_weekRooster.getDag(int_dagSelected).getUur(4).getVeranderd()){ t.setBackgroundColor(Color.RED); } else { t.setBackgroundColor(Color.parseColor("#a09f9f")); }
+                    if(ros_weekRooster.getDag(int_dagSelected).getUur(4).getVeranderd()){ t.setBackgroundColor(Color.RED); } else { t.setBackgroundColor(Color.parseColor("#e2e2e2")); }
                     t = (TextView) findViewById(R.id.les6);
                     t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(5).getText());
                     if(ros_weekRooster.getDag(int_dagSelected).getUur(5).getVeranderd()){ t.setBackgroundColor(Color.RED); } else { t.setBackgroundColor(Color.parseColor("#a09f9f")); }
@@ -315,15 +318,16 @@ public class roosterScreen extends ActionBarActivity {
         str_data = str_data.replace("<table cols=\"3\" style=\"font-size: .75em; border: 0px; width: 100%\" cellspacing=\"0\" cellpadding=\"0\"></table>", "ZZZ zzz Z001");
         //str_data = android.text.Html.fromHtml(str_data).toString();
         //str_data = str_data.replace("madiwodovr", "");
-        Log.d("Data", str_data);
+        //Log.d("Data", str_data);
         String[] strar_data = str_data.split("<td style=\"padding: 1px\"");
         int i = 0;
         while(i < strar_data.length){
-            if(strar_data[i].length()>5) {
-                strar_data[i] = strar_data[i].substring(13);
-            }
+
             strar_data[i]=android.text.Html.fromHtml(strar_data[i]).toString();
-            Log.d("Data "+String.valueOf(i), android.text.Html.fromHtml(strar_data[i]).toString());
+            if(strar_data[i].length()>15) {
+                strar_data[i] = strar_data[i].substring(12);
+            }
+            //Log.d("Data "+String.valueOf(i), android.text.Html.fromHtml(strar_data[i]).toString());
             //Log.d("Data", strar_data[i]);
             i++;
         }
