@@ -279,22 +279,22 @@ public class roosterScreen extends ActionBarActivity {
                     t.setText(ros_weekRooster.getDag(int_dagSelected).getDag());
                     t = (TextView) findViewById(R.id.les1);
                     t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(0).getText());
-                    if(ros_weekRooster.getDag(int_dagSelected).getUur(0).getVeranderd()){ t.setBackgroundColor(Color.RED); } else { t.setBackgroundColor(Color.parseColor("#e2e2e2")); }
+                    if(ros_weekRooster.getDag(int_dagSelected).getUur(0).getVeranderd()){ t.setBackgroundColor(Color.parseColor("#ffdcdc")); } else { t.setBackgroundColor(Color.parseColor("#e2e2e2")); }
                     t = (TextView) findViewById(R.id.les2);
                     t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(1).getText());
-                    if(ros_weekRooster.getDag(int_dagSelected).getUur(1).getVeranderd()){ t.setBackgroundColor(Color.RED); } else { t.setBackgroundColor(Color.parseColor("#a09f9f")); }
+                    if(ros_weekRooster.getDag(int_dagSelected).getUur(1).getVeranderd()){ t.setBackgroundColor(Color.parseColor("#ffdcdc")); } else { t.setBackgroundColor(Color.parseColor("#a09f9f")); }
                     t = (TextView) findViewById(R.id.les3);
                     t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(2).getText());
-                    if(ros_weekRooster.getDag(int_dagSelected).getUur(2).getVeranderd()){ t.setBackgroundColor(Color.RED); } else { t.setBackgroundColor(Color.parseColor("#e2e2e2")); }
+                    if(ros_weekRooster.getDag(int_dagSelected).getUur(2).getVeranderd()){ t.setBackgroundColor(Color.parseColor("#ffdcdc")); } else { t.setBackgroundColor(Color.parseColor("#e2e2e2")); }
                     t = (TextView) findViewById(R.id.les4);
                     t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(3).getText());
-                    if(ros_weekRooster.getDag(int_dagSelected).getUur(3).getVeranderd()){ t.setBackgroundColor(Color.RED); } else { t.setBackgroundColor(Color.parseColor("#a09f9f")); }
+                    if(ros_weekRooster.getDag(int_dagSelected).getUur(3).getVeranderd()){ t.setBackgroundColor(Color.parseColor("#ffdcdc")); } else { t.setBackgroundColor(Color.parseColor("#a09f9f")); }
                     t = (TextView) findViewById(R.id.les5);
                     t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(4).getText());
-                    if(ros_weekRooster.getDag(int_dagSelected).getUur(4).getVeranderd()){ t.setBackgroundColor(Color.RED); } else { t.setBackgroundColor(Color.parseColor("#e2e2e2")); }
+                    if(ros_weekRooster.getDag(int_dagSelected).getUur(4).getVeranderd()){ t.setBackgroundColor(Color.parseColor("#ffdcdc")); } else { t.setBackgroundColor(Color.parseColor("#e2e2e2")); }
                     t = (TextView) findViewById(R.id.les6);
                     t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(5).getText());
-                    if(ros_weekRooster.getDag(int_dagSelected).getUur(5).getVeranderd()){ t.setBackgroundColor(Color.RED); } else { t.setBackgroundColor(Color.parseColor("#a09f9f")); }
+                    if(ros_weekRooster.getDag(int_dagSelected).getUur(5).getVeranderd()){ t.setBackgroundColor(Color.parseColor("#ffdcdc")); } else { t.setBackgroundColor(Color.parseColor("#a09f9f")); }
                 }
             });
         }
