@@ -23,7 +23,8 @@
             android:text="MA"
             android:id="@+id/buttonMA"
             android:layout_gravity="left|top"
-            android:onClick="roosterSet" />
+            android:onClick="roosterSet"
+            />
 
         <Button
             style="?android:attr/buttonStyleSmall"
