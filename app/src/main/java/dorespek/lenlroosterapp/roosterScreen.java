@@ -50,11 +50,11 @@ public class roosterScreen extends ActionBarActivity {
     }
     protected void onPostCreate(Bundle savedInstanceState){
         super.onPostCreate(savedInstanceState);
-        try {
+        /*try {
             roosterStepper();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
         final WebView webBrowser = (WebView) findViewById(R.id.webBrowser);
 
         WebSettings webSettings = webBrowser.getSettings();

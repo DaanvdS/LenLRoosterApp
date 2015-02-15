@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Lek en Linge RoosterApp</string>
+    <string name="app_name">Rooster</string>
     <string name="action_settings">Instellingen</string>
     <string name="vak">Vak</string>
-    <string name="les1">LES1</string>
-    <string name="les2">LES2</string>
-    <string name="les3">LES3</string>
-    <string name="les4">LES4</string>
-    <string name="les5">LES5</string>
-    <string name="les6">LES6</string>
+    <string name="les1">Les 1</string>
+    <string name="les2">Les 2</string>
+    <string name="les3">Les 3</string>
+    <string name="les4">Les 4</string>
+    <string name="les5">Les 5</string>
+    <string name="les6">Les 6</string>
     <string name="dag">Dag</string>
     <string name="app_shortname">Rooster</string>
 </resources>
