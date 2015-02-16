@@ -27,6 +27,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Arrays;
 import java.util.Calendar;
 
 public class roosterScreen extends ActionBarActivity {
@@ -193,16 +194,21 @@ public class roosterScreen extends ActionBarActivity {
             bool_loggedIn =true;
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
             webBrowser.loadUrl("https://www.lekenlinge.nl/mobiel/rooster?q=" + prefs.getString("lln", "100000"));
+            //webBrowser.loadUrl("https://www.lekenlinge.nl/mobiel/rooster?q=114553");
         }
         if(int_stepperPoint ==30) {
             //Roosterpage source presented
             Log.d("stepper", "Filtering roosterdata step 1");
 
-            String str_tempData = sourceResult.replace('\'', '"');
+            //String str_tempData = sourceResult.replace('\'', '"');
+            String str_tempData = sourceResult;
             str_tempData = str_tempData.split("<h3>Weekrooster</h3>")[1];
+            str_tempData = str_tempData.split("<div id=\"contentBottom\">")[0];
             String[] strar_tempData = str_tempData.split("<h3>Jaarrooster</h3>");
             str_weekRooster = strar_tempData[0];
+            str_weekRooster = str_weekRooster.split("vr</td></tr>")[1];
             str_jaarRooster = strar_tempData[1];
+            str_jaarRooster = str_jaarRooster.split("vr</td></tr>")[1];
             int_stepperPoint =40;
         }
         if(int_stepperPoint ==40){
@@ -232,10 +238,11 @@ public class roosterScreen extends ActionBarActivity {
         }
         if(int_stepperPoint==50){
             Log.d("stepper", "Filtering roosterdata step 2");
-            str_jaarRooster = str_jaarRooster.split("clearer")[0];
-            str_jaarRooster = str_jaarRooster.split("<p></p></div><div id=\"lestijden\"")[0];
             strar_weekRooster = filterRooster(str_weekRooster);
             strar_jaarRooster = filterRooster(str_jaarRooster);
+            int i=0;
+            Log.d("rooster", Arrays.toString(strar_weekRooster));
+
             ros_weekRooster = new Rooster("week");
             ros_weekRooster.setDagen(strar_weekRooster, strar_jaarRooster);
 
@@ -301,39 +308,37 @@ public class roosterScreen extends ActionBarActivity {
         }
     }
     public String[] filterRooster(String str_data){
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        str_data = str_data.replace("<table id=\"w" + prefs.getString("lln", "100000") + "\" class=\"roostertabel week\" cols=\"6\" cellspacing=\"0\" cellpadding=\"0\" style=\"width: 100%\"><tbody><tr><td class=\"headercell\"></td>", "");
-        str_data = str_data.replace("<table id=\"j" + prefs.getString("lln", "100000") + "\" class=\"roostertabel jaar\" cols=\"6\" cellspacing=\"0\" cellpadding=\"0\" style=\"width: 100%\"><tbody><tr><td class=\"headercell\"></td>", "");
-        str_data = str_data.replace("<td class=\"headercell\" style=\"text-align: center; \">1</td>","");
-        str_data = str_data.replace("<td class=\"headercell\" style=\"text-align: center; \">1</td>","");
-        str_data = str_data.replace("<td class=\"headercell\" style=\"text-align: center; \">2</td>","");
-        str_data = str_data.replace("<td class=\"headercell\" style=\"text-align: center; \">3</td>","");
-        str_data = str_data.replace("<td class=\"headercell\" style=\"text-align: center; \">4</td>","");
-        str_data = str_data.replace("<td class=\"headercell\" style=\"text-align: center; \">5</td>","");
-        str_data = str_data.replace("<td class=\"headercell\" style=\"text-align: center; \">6</td>","");
-        str_data = str_data.replace("<table cols=\"3\" style=\"font-size: .75em; border: 0px; width: 100%\" cellspacing=\"0\" cellpadding=\"0\"><tbody>","");
-        str_data = str_data.replace("padding: 1px; background-color: rgb(255, 220, 220);","padding: 1px");
-        str_data = str_data.replace("</td></tr><tr style=\"border: 0px; padding: 0px\"><td style=\"width: 100%;text-align: center;border: 0px; padding: 0px 1px 0px 0px\">"," ");
-        str_data = str_data.replace(" <tr>","");
-        str_data = str_data.replace("<td class=\"headercell\" style=\"text-align: center\">ma</td><td class=\"headercell\" style=\"text-align: center\">di</td><td class=\"headercell\" style=\"text-align: center\">wo</td><td class=\"headercell\" style=\"text-align: center\">do</td><td class=\"headercell\" style=\"text-align: center\">vr</td></tr>","");
-        str_data = str_data.replace("<table cols=\"3\" style=\"font-size: .75em; border: 0px; width: 100%\" cellspacing=\"0\" cellpadding=\"0\"></table>", "ZZZ zzz Z001");
-        //str_data = android.text.Html.fromHtml(str_data).toString();
-        //str_data = str_data.replace("madiwodovr", "");
-        //Log.d("Data", str_data);
-        String[] strar_data = str_data.split("<td style=\"padding: 1px\"");
+        String[] strar_data = str_data.split("<tr>");
+        String[] rooster = new String[30];
+        int rC = 0;
         int i = 0;
         while(i < strar_data.length){
+            String[] strar_temp = strar_data[i].split("<td style=\"padding: 1px\" class=\"");
+            //strar_temp[0] = "";
+            int j = 1;
 
-            strar_data[i]=android.text.Html.fromHtml(strar_data[i]).toString();
-            if(strar_data[i].length()>15) {
-                strar_data[i] = strar_data[i].substring(12);
+            while(j < strar_temp.length) {
+                strar_temp[j] = strar_temp[j].substring(5);
+                strar_temp[j] = android.text.Html.fromHtml(strar_temp[j]).toString();
+                //Log.d("debug", strar_temp[j]);
+                if(!(strar_temp[j].length()==0)){
+                    String[] strar_tempDag = strar_temp[j].split(" ");
+                    if(strar_tempDag[2].length()==7){
+                        strar_tempDag[2] = strar_tempDag[2].substring(0,4) + " " + strar_tempDag[2].substring(4);
+                        strar_temp[j] = strar_tempDag[0] + " " + strar_tempDag[1] + " " + strar_tempDag[2] + " " + strar_tempDag[3] + " " + strar_tempDag[4];
+                    }
+                }
+                //Log.d("deb", strar_temp[j]);
+                rooster[rC] = strar_temp[j];
+                rC++;
+                j++;
             }
             //Log.d("Data "+String.valueOf(i), android.text.Html.fromHtml(strar_data[i]).toString());
             //Log.d("Data", strar_data[i]);
             i++;
         }
 
-        return strar_data;
+        return rooster;
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
