@@ -197,6 +197,7 @@ public class roosterScreen extends ActionBarActivity {
         if(int_stepperPoint ==30) {
             //Roosterpage source presented
             Log.d("stepper", "Filtering roosterdata step 1");
+
             String str_tempData = sourceResult.replace('\'', '"');
             str_tempData = str_tempData.split("<h3>Weekrooster</h3>")[1];
             String[] strar_tempData = str_tempData.split("<h3>Jaarrooster</h3>");
