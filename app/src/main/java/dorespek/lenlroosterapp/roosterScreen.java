@@ -29,6 +29,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Random;
 
 public class roosterScreen extends ActionBarActivity {
     public String sourceResult;
@@ -171,7 +172,7 @@ public class roosterScreen extends ActionBarActivity {
                 }
             });
             bool_loggedIn=false;
-            webBrowser.loadUrl("https://www.lekenlinge.nl");
+            webBrowser.loadUrl("https://www.lekenlinge.nl/uitloggen");
         }
         if(int_stepperPoint ==5){
             Log.d("stepper", "Again");
@@ -193,15 +194,15 @@ public class roosterScreen extends ActionBarActivity {
             Log.d("stepper", "Logged in, going to roosterpage");
             bool_loggedIn =true;
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-            webBrowser.loadUrl("https://www.lekenlinge.nl/mobiel/rooster?q=" + prefs.getString("lln", "100000"));
-            //webBrowser.loadUrl("https://www.lekenlinge.nl/mobiel/rooster?q=114553");
+            //Log.d("test", prefs.getString("lln", "100000"));
+            Random rand = new Random();
+            webBrowser.loadUrl("https://www.lekenlinge.nl/mobiel/rooster?q=" + prefs.getString("lln", "100000") + "&rand=" + (Integer.toString(rand.nextInt(50) + 1)));
         }
         if(int_stepperPoint ==30) {
             //Roosterpage source presented
             Log.d("stepper", "Filtering roosterdata step 1");
-
-            //String str_tempData = sourceResult.replace('\'', '"');
-            String str_tempData = sourceResult;
+            String str_tempData = sourceResult.replace('\'', '"');
+            //String str_tempData = sourceResult;
             str_tempData = str_tempData.split("<h3>Weekrooster</h3>")[1];
             str_tempData = str_tempData.split("<div id=\"contentBottom\">")[0];
             String[] strar_tempData = str_tempData.split("<h3>Jaarrooster</h3>");
@@ -242,6 +243,7 @@ public class roosterScreen extends ActionBarActivity {
             strar_jaarRooster = filterRooster(str_jaarRooster);
             int i=0;
             Log.d("rooster", Arrays.toString(strar_weekRooster));
+            Log.d("rooster", Arrays.toString(strar_jaarRooster));
 
             ros_weekRooster = new Rooster("week");
             ros_weekRooster.setDagen(strar_weekRooster, strar_jaarRooster);
@@ -314,13 +316,11 @@ public class roosterScreen extends ActionBarActivity {
         int i = 0;
         while(i < strar_data.length){
             String[] strar_temp = strar_data[i].split("<td style=\"padding: 1px\" class=\"");
-            //strar_temp[0] = "";
             int j = 1;
 
             while(j < strar_temp.length) {
                 strar_temp[j] = strar_temp[j].substring(5);
                 strar_temp[j] = android.text.Html.fromHtml(strar_temp[j]).toString();
-                //Log.d("debug", strar_temp[j]);
                 if(!(strar_temp[j].length()==0)){
                     String[] strar_tempDag = strar_temp[j].split(" ");
                     if(strar_tempDag[2].length()==7){
@@ -328,13 +328,10 @@ public class roosterScreen extends ActionBarActivity {
                         strar_temp[j] = strar_tempDag[0] + " " + strar_tempDag[1] + " " + strar_tempDag[2] + " " + strar_tempDag[3] + " " + strar_tempDag[4];
                     }
                 }
-                //Log.d("deb", strar_temp[j]);
                 rooster[rC] = strar_temp[j];
                 rC++;
                 j++;
             }
-            //Log.d("Data "+String.valueOf(i), android.text.Html.fromHtml(strar_data[i]).toString());
-            //Log.d("Data", strar_data[i]);
             i++;
         }
 
