@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Rooster</string>
     <string name="action_settings">Instellingen</string>
     <string name="vak">Vak</string>
@@ -12,4 +11,5 @@
     <string name="les6">Les 6</string>
     <string name="dag">Dag</string>
     <string name="app_shortname">Rooster</string>
+    <color name="boven">#000410</color>
 </resources>

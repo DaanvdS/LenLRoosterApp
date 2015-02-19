@@ -28,7 +28,7 @@ public class Rooster {
         while(uur < 6){
             while(dag < 5) {
 
-                dagen[dag].setUur(uur, w_rooster[(plek)], isVeranderd(w_rooster[(plek)], j_rooster[(plek)]));
+                dagen[dag].setUur(uur, w_rooster[(plek)], isVeranderd(w_rooster[(plek)], j_rooster[(plek)], plek));
                 //Log.d("w", w_rooster[(plek)]);
                 //Log.d("j", j_rooster[(plek+1)]);
                 dag++;
@@ -43,11 +43,15 @@ public class Rooster {
         return dagen[i];
     }
 
-    public boolean isVeranderd(String wtext, String jtext){
-        if(wtext.equals(jtext)){
-            return false;
+    public boolean isVeranderd(String wtext, String jtext, int plek){
+        if(!(plek==29)) {
+            if (wtext.equals(jtext)) {
+                return false;
+            } else {
+                return true;
+            }
         } else {
-            return true;
+            return false;
         }
     }
 }

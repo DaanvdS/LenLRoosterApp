@@ -1,7 +1,10 @@
 package dorespek.lenlroosterapp;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -202,7 +205,6 @@ public class roosterScreen extends ActionBarActivity {
             //Roosterpage source presented
             Log.d("stepper", "Filtering roosterdata step 1");
             String str_tempData = sourceResult.replace('\'', '"');
-            //String str_tempData = sourceResult;
             str_tempData = str_tempData.split("<h3>Weekrooster</h3>")[1];
             str_tempData = str_tempData.split("<div id=\"contentBottom\">")[0];
             String[] strar_tempData = str_tempData.split("<h3>Jaarrooster</h3>");
@@ -210,7 +212,7 @@ public class roosterScreen extends ActionBarActivity {
             str_weekRooster = str_weekRooster.split("vr</td></tr>")[1];
             str_jaarRooster = strar_tempData[1];
             str_jaarRooster = str_jaarRooster.split("vr</td></tr>")[1];
-            int_stepperPoint =40;
+            int_stepperPoint=40;
         }
         if(int_stepperPoint ==40){
             Log.d("stepper", "Writing data to file");
@@ -241,13 +243,8 @@ public class roosterScreen extends ActionBarActivity {
             Log.d("stepper", "Filtering roosterdata step 2");
             strar_weekRooster = filterRooster(str_weekRooster);
             strar_jaarRooster = filterRooster(str_jaarRooster);
-            int i=0;
-            Log.d("rooster", Arrays.toString(strar_weekRooster));
-            Log.d("rooster", Arrays.toString(strar_jaarRooster));
-
             ros_weekRooster = new Rooster("week");
             ros_weekRooster.setDagen(strar_weekRooster, strar_jaarRooster);
-
             int_stepperPoint=60;
         }
         if(int_stepperPoint==60){
@@ -289,22 +286,22 @@ public class roosterScreen extends ActionBarActivity {
                     t.setText(ros_weekRooster.getDag(int_dagSelected).getDag());
                     t = (TextView) findViewById(R.id.les1);
                     t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(0).getText());
-                    if(ros_weekRooster.getDag(int_dagSelected).getUur(0).getVeranderd()){ t.setBackgroundColor(Color.parseColor("#ffdcdc")); } else { t.setBackgroundColor(Color.parseColor("#e2e2e2")); }
+                    if(ros_weekRooster.getDag(int_dagSelected).getUur(0).getVeranderd()){ t.setBackgroundColor(Color.parseColor("#ffdcdc")); } else { t.setBackgroundResource(R.drawable.button_style5); }
                     t = (TextView) findViewById(R.id.les2);
                     t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(1).getText());
-                    if(ros_weekRooster.getDag(int_dagSelected).getUur(1).getVeranderd()){ t.setBackgroundColor(Color.parseColor("#ffdcdc")); } else { t.setBackgroundColor(Color.parseColor("#a09f9f")); }
+                    if(ros_weekRooster.getDag(int_dagSelected).getUur(1).getVeranderd()){ t.setBackgroundColor(Color.parseColor("#ffdcdc")); } else { t.setBackgroundResource(R.drawable.button_style4); }
                     t = (TextView) findViewById(R.id.les3);
                     t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(2).getText());
-                    if(ros_weekRooster.getDag(int_dagSelected).getUur(2).getVeranderd()){ t.setBackgroundColor(Color.parseColor("#ffdcdc")); } else { t.setBackgroundColor(Color.parseColor("#e2e2e2")); }
+                    if(ros_weekRooster.getDag(int_dagSelected).getUur(2).getVeranderd()){ t.setBackgroundColor(Color.parseColor("#ffdcdc")); } else { t.setBackgroundResource(R.drawable.button_style5); }
                     t = (TextView) findViewById(R.id.les4);
                     t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(3).getText());
-                    if(ros_weekRooster.getDag(int_dagSelected).getUur(3).getVeranderd()){ t.setBackgroundColor(Color.parseColor("#ffdcdc")); } else { t.setBackgroundColor(Color.parseColor("#a09f9f")); }
+                    if(ros_weekRooster.getDag(int_dagSelected).getUur(3).getVeranderd()){ t.setBackgroundColor(Color.parseColor("#ffdcdc")); } else { t.setBackgroundResource(R.drawable.button_style4); }
                     t = (TextView) findViewById(R.id.les5);
                     t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(4).getText());
-                    if(ros_weekRooster.getDag(int_dagSelected).getUur(4).getVeranderd()){ t.setBackgroundColor(Color.parseColor("#ffdcdc")); } else { t.setBackgroundColor(Color.parseColor("#e2e2e2")); }
+                    if(ros_weekRooster.getDag(int_dagSelected).getUur(4).getVeranderd()){ t.setBackgroundColor(Color.parseColor("#ffdcdc")); } else { t.setBackgroundResource(R.drawable.button_style5); }
                     t = (TextView) findViewById(R.id.les6);
                     t.setText(ros_weekRooster.getDag(int_dagSelected).getUur(5).getText());
-                    if(ros_weekRooster.getDag(int_dagSelected).getUur(5).getVeranderd()){ t.setBackgroundColor(Color.parseColor("#ffdcdc")); } else { t.setBackgroundColor(Color.parseColor("#a09f9f")); }
+                    if(ros_weekRooster.getDag(int_dagSelected).getUur(5).getVeranderd()){ t.setBackgroundColor(Color.parseColor("#ffdcdc")); } else { t.setBackgroundResource(R.drawable.button_style4); }
                 }
             });
         }
@@ -315,11 +312,12 @@ public class roosterScreen extends ActionBarActivity {
         int rC = 0;
         int i = 0;
         while(i < strar_data.length){
-            String[] strar_temp = strar_data[i].split("<td style=\"padding: 1px\" class=\"");
+            String[] strar_temp = strar_data[i].split("<td style=\"padding");
             int j = 1;
 
             while(j < strar_temp.length) {
-                strar_temp[j] = strar_temp[j].substring(5);
+                //strar_temp[j] = strar_temp[j].substring(5);
+                strar_temp[j] = "<td \"" + strar_temp[j];
                 strar_temp[j] = android.text.Html.fromHtml(strar_temp[j]).toString();
                 if(!(strar_temp[j].length()==0)){
                     String[] strar_tempDag = strar_temp[j].split(" ");
